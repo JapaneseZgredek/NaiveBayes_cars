@@ -1,3 +1,5 @@
+import random
+
 from Specifications import Specifications
 
 size_vgood = 0
@@ -19,9 +21,10 @@ def read_from_file():
     testing_data = []
     with open("car_evaluation.data", "r") as file:
         lines = file.readlines()
+        random.shuffle(lines)
         for i, line in enumerate(lines):
             line = line.split(',')
-            if i < len(lines)*0.7:
+            if i <= len(lines)*0.7:
                 testing_data.append(Specifications(line[:6], line[len(line) - 1].removesuffix('\n')))
             else:
                 training_data.append(Specifications(line[:6], line[len(line) - 1].removesuffix('\n')))
@@ -127,7 +130,7 @@ def main():
         [vgood_dict, acc_dict, good_dict, unacc_dict, data_dictionary],
         [vgood, acc, good, unacc, testing_data])
 
-    print(f'Correctness {correct_guesses/len(testing_data)}%     ---     {correct_guesses}/{len(testing_data)}')
+    print(f'Correctness {round((correct_guesses/len(testing_data)) * 100, 2)}%     ---     {correct_guesses}/{len(testing_data)}')
     print(f'Vgood: {vgood_correct}/{vgood_total}')
     print(f'Acc: {acc_correct}/{acc_total}')
     print(f'Good:  {good_correct}/{good_total}')
